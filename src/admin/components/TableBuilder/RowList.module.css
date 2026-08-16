@@ -1,0 +1,113 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.count {
+  font-size: 12px;
+  color: var(--color-gray500, #6b6b6b);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.newRowButton {
+  background: var(--color-black, #000);
+  color: var(--color-white, #fff);
+  border: 1px solid var(--color-black, #000);
+  padding: 8px 16px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.table th {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--color-black, #000);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-gray500, #6b6b6b);
+}
+
+.table td {
+  padding: 10px;
+  border-bottom: 1px solid var(--color-gray300, #c9c9c9);
+}
+
+.actionsHeader {
+  width: 140px;
+}
+
+.actionsCell {
+  display: flex;
+  gap: 8px;
+}
+
+.actionsCell button {
+  background: none;
+  border: 1px solid var(--color-gray300, #c9c9c9);
+  padding: 5px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.actionsCell button:hover {
+  border-color: var(--color-black, #000);
+}
+
+.deleteButton {
+  color: var(--color-danger, #b91c1c);
+}
+
+.hint {
+  font-size: 13px;
+  color: var(--color-gray500, #6b6b6b);
+  padding: 24px 0;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  font-size: 12px;
+}
+
+.pagination button {
+  background: none;
+  border: 1px solid var(--color-gray300, #c9c9c9);
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.inlinePanel {
+  border-top: 2px solid var(--color-black, #000);
+  padding-top: 16px;
+  margin-top: 8px;
+}
+
+.inlinePanel h3 {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 16px;
+}

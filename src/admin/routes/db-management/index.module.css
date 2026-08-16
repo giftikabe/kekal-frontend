@@ -1,0 +1,130 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.pageHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.pageHeader h1 {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: var(--color-gray500, #6b6b6b);
+  margin-top: 4px;
+}
+
+.newTableButton {
+  background: var(--color-black, #000);
+  color: var(--color-white, #fff);
+  border: 1px solid var(--color-black, #000);
+  padding: 10px 18px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.hint {
+  font-size: 13px;
+  color: var(--color-gray500, #6b6b6b);
+}
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--color-gray300, #c9c9c9);
+}
+
+.tab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 10px 4px;
+  margin-right: 20px;
+  font-size: 13px;
+  color: var(--color-gray500, #6b6b6b);
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.tab:hover {
+  color: var(--color-black, #000);
+}
+
+.tabActive {
+  color: var(--color-black, #000);
+  border-bottom-color: var(--color-black, #000);
+  font-weight: 700;
+}
+
+.tableGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.tableCard {
+  border: 1px solid var(--color-gray300, #c9c9c9);
+  display: flex;
+  flex-direction: column;
+}
+
+.tableCard:hover {
+  border-color: var(--color-black, #000);
+}
+
+.tableCardMain {
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 18px 16px 12px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tableCardLabel {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.tableCardMeta {
+  font-size: 12px;
+  color: var(--color-gray500, #6b6b6b);
+}
+
+.tableCardActions {
+  display: flex;
+  border-top: 1px solid var(--color-gray300, #c9c9c9);
+}
+
+.tableCardActions button {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 9px 0;
+  font-size: 12px;
+  cursor: pointer;
+  border-right: 1px solid var(--color-gray300, #c9c9c9);
+}
+
+.tableCardActions button:last-child {
+  border-right: none;
+}
+
+.tableCardActions button:hover {
+  background: var(--color-gray100, #f2f2f2);
+}
+
+.deleteButton {
+  color: var(--color-danger, #b91c1c);
+}

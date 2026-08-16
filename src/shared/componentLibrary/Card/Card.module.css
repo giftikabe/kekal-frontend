@@ -1,0 +1,108 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: var(--kk-space-6);
+  padding: var(--kk-space-8) var(--kk-space-6);
+  background: var(--kk-white);
+  box-sizing: border-box;
+}
+
+.single {
+  display: flex;
+  justify-content: center;
+  padding: var(--kk-space-8) var(--kk-space-6);
+  background: var(--kk-white);
+  box-sizing: border-box;
+}
+
+.single .card {
+  max-width: 22rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  color: inherit;
+  text-decoration: none;
+  background: var(--kk-white);
+  border: var(--kk-border, 1px solid var(--kk-gray-200));
+  transition: border-color var(--kk-motion-base), transform var(--kk-motion-base);
+}
+
+a.card:hover {
+  border-color: var(--kk-black);
+  transform: translateY(-2px);
+}
+
+.imageFrame {
+  aspect-ratio: 4 / 5;
+  background: var(--kk-gray-100);
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.imagePlaceholder {
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    135deg,
+    var(--kk-gray-100),
+    var(--kk-gray-100) 10px,
+    var(--kk-gray-200) 10px,
+    var(--kk-gray-200) 20px
+  );
+}
+
+.body {
+  padding: var(--kk-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--kk-space-2);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--kk-font-display);
+  font-weight: 600;
+  font-size: var(--kk-text-lg);
+  line-height: 1.25;
+  color: var(--kk-black);
+}
+
+.text {
+  margin: 0;
+  font-family: var(--kk-font-body);
+  font-size: var(--kk-text-sm);
+  line-height: 1.5;
+  color: var(--kk-gray-600);
+}
+
+.footer {
+  margin-top: var(--kk-space-2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--kk-font-mono);
+  font-size: var(--kk-text-xs);
+  letter-spacing: 0.04em;
+}
+
+.price {
+  color: var(--kk-black);
+  font-weight: 500;
+}
+
+.link {
+  color: var(--kk-gray-500);
+  text-transform: uppercase;
+}
+
+a.card:hover .link {
+  color: var(--kk-black);
+}

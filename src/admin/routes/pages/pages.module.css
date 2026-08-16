@@ -1,0 +1,174 @@
+.wrapper {
+  padding: 32px;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 4px;
+  color: var(--color-black, #000);
+}
+
+.subtitle {
+  font-size: 13px;
+  color: var(--color-gray-500, #737373);
+  margin: 0;
+}
+
+.newPageButton {
+  padding: 10px 18px;
+  background: var(--color-black, #000);
+  color: var(--color-white, #fff);
+  border: 1px solid var(--color-black, #000);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.newPageButton:hover {
+  background: var(--color-gray-800, #262626);
+}
+
+.newPageButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.stateText {
+  font-size: 13px;
+  color: var(--color-gray-500, #737373);
+}
+
+.stateTextError {
+  font-size: 13px;
+  color: var(--color-error, #b91c1c);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.table th {
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-gray-500, #737373);
+  border-bottom: 1px solid var(--color-gray-200, #e5e5e5);
+  padding: 8px 12px;
+}
+
+.table td {
+  padding: 12px;
+  border-bottom: 1px solid var(--color-gray-100, #f5f5f5);
+  color: var(--color-black, #000);
+}
+
+.slugCell {
+  color: var(--color-gray-500, #737373);
+  font-family: 'SFMono-Regular', Consolas, monospace;
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border: 1px solid var(--color-gray-300, #d4d4d4);
+  color: var(--color-gray-600, #525252);
+}
+
+.statusLive {
+  border-color: var(--color-black, #000);
+  color: var(--color-black, #000);
+}
+
+.rowAction {
+  text-align: right;
+}
+
+.editButton {
+  font-size: 12px;
+  padding: 6px 12px;
+  border: 1px solid var(--color-gray-300, #d4d4d4);
+  background: var(--color-white, #fff);
+  cursor: pointer;
+}
+
+.editButton:hover {
+  border-color: var(--color-black, #000);
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal {
+  background: var(--color-white, #fff);
+  padding: 24px;
+  width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border: 1px solid var(--color-gray-200, #e5e5e5);
+}
+
+.modalTitle {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+
+.modalLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--color-gray-600, #525252);
+}
+
+.modalInput {
+  font-size: 13px;
+  padding: 8px 10px;
+  border: 1px solid var(--color-gray-300, #d4d4d4);
+}
+
+.modalInput:focus {
+  outline: 2px solid var(--color-black, #000);
+  outline-offset: 1px;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.cancelButton {
+  padding: 10px 16px;
+  background: var(--color-white, #fff);
+  border: 1px solid var(--color-gray-300, #d4d4d4);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.cancelButton:hover {
+  border-color: var(--color-black, #000);
+}

@@ -1,0 +1,49 @@
+.sidebar {
+  width: 240px;
+  min-width: 240px;
+  background: var(--color-black, #000);
+  color: var(--color-white, #fff);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+}
+
+.header {
+  padding: 24px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  filter: invert(1);
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 0;
+}
+
+.navItem {
+  padding: 12px 20px;
+  color: rgba(255, 255, 255, 0.65);
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  border-left: 2px solid transparent;
+}
+
+.navItem:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.navItemActive {
+  color: #fff;
+  border-left-color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}

@@ -1,0 +1,108 @@
+.section {
+  background: var(--kk-white);
+  color: var(--kk-black);
+  padding: var(--kk-space-10) var(--kk-space-6);
+  box-sizing: border-box;
+}
+
+.inner {
+  max-width: 32rem;
+  margin: 0 auto;
+}
+
+.heading {
+  font-family: var(--kk-font-display);
+  font-weight: 600;
+  font-size: var(--kk-text-2xl);
+  letter-spacing: -0.015em;
+  margin: 0 0 var(--kk-space-2);
+}
+
+.description {
+  font-family: var(--kk-font-body);
+  font-size: var(--kk-text-base);
+  color: var(--kk-gray-600);
+  line-height: 1.6;
+  margin: 0 0 var(--kk-space-6);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kk-space-4);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kk-space-2);
+}
+
+.label {
+  font-family: var(--kk-font-mono);
+  font-size: var(--kk-text-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--kk-gray-600);
+}
+
+.input,
+.textarea {
+  font-family: var(--kk-font-body);
+  font-size: var(--kk-text-base);
+  color: var(--kk-black);
+  background: var(--kk-white);
+  border: none;
+  border-bottom: 1px solid var(--kk-gray-300);
+  padding: var(--kk-space-2) 0;
+  outline: none;
+  transition: border-color var(--kk-motion-fast);
+  resize: vertical;
+}
+
+.input:focus,
+.textarea:focus {
+  border-bottom-color: var(--kk-black);
+}
+
+.submit {
+  margin-top: var(--kk-space-2);
+  align-self: flex-start;
+  font-family: var(--kk-font-mono);
+  font-size: var(--kk-text-sm);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--kk-white);
+  background: var(--kk-black);
+  border: 1px solid var(--kk-black);
+  padding: var(--kk-space-3) var(--kk-space-6);
+  cursor: pointer;
+  transition: opacity var(--kk-motion-fast);
+}
+
+.submit:hover:not(:disabled) {
+  opacity: 0.8;
+}
+
+.submit:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.success {
+  font-family: var(--kk-font-display);
+  font-size: var(--kk-text-lg);
+  color: var(--kk-black);
+  text-align: center;
+  padding: var(--kk-space-8) 0;
+  margin: 0;
+}
+
+.error {
+  font-family: var(--kk-font-body);
+  font-size: var(--kk-text-sm);
+  color: var(--kk-black);
+  border-left: 2px solid var(--kk-black);
+  padding-left: var(--kk-space-3);
+  margin: 0;
+}

@@ -1,0 +1,327 @@
+/* src/admin/routes/commerce/commerce.module.css */
+
+.page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: var(--spacing-8, 2rem) var(--spacing-6, 1.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6, 1.5rem);
+}
+
+.pageTitle {
+  font-size: var(--text-2xl, 1.5rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-fg, #000);
+  margin: 0 0 var(--spacing-2, 0.5rem);
+}
+
+/* ── Card ─────────────────────────────────────────────────────────────────── */
+
+.card {
+  background: var(--color-surface, #fff);
+  border: 1px solid var(--color-border, #e5e5e5);
+  border-radius: var(--radius-md, 6px);
+  padding: var(--spacing-6, 1.5rem);
+}
+
+.cardTitle {
+  font-size: var(--text-lg, 1.125rem);
+  font-weight: 600;
+  color: var(--color-fg, #000);
+  margin: 0 0 var(--spacing-4, 1rem);
+}
+
+.subTitle {
+  font-size: var(--text-base, 1rem);
+  font-weight: 600;
+  color: var(--color-fg, #000);
+  margin: var(--spacing-5, 1.25rem) 0 var(--spacing-2, 0.5rem);
+}
+
+/* ── Form ─────────────────────────────────────────────────────────────────── */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4, 1rem);
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1, 0.25rem);
+  font-size: var(--text-sm, 0.875rem);
+  font-weight: 500;
+  color: var(--color-fg, #000);
+}
+
+.input {
+  width: 100%;
+  padding: var(--spacing-2, 0.5rem) var(--spacing-3, 0.75rem);
+  border: 1px solid var(--color-border, #e5e5e5);
+  border-radius: var(--radius-sm, 4px);
+  font-size: var(--text-sm, 0.875rem);
+  color: var(--color-fg, #000);
+  background: var(--color-bg, #fff);
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-fg, #000);
+}
+
+.select {
+  padding: var(--spacing-2, 0.5rem) var(--spacing-3, 0.75rem);
+  border: 1px solid var(--color-border, #e5e5e5);
+  border-radius: var(--radius-sm, 4px);
+  font-size: var(--text-sm, 0.875rem);
+  color: var(--color-fg, #000);
+  background: var(--color-bg, #fff);
+  cursor: pointer;
+}
+
+.error {
+  font-size: var(--text-sm, 0.875rem);
+  color: #c00;
+}
+
+/* ── Buttons ──────────────────────────────────────────────────────────────── */
+
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-2, 0.5rem) var(--spacing-5, 1.25rem);
+  background: var(--color-fg, #000);
+  color: var(--color-bg, #fff);
+  border: none;
+  border-radius: var(--radius-sm, 4px);
+  font-size: var(--text-sm, 0.875rem);
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+}
+
+.btnPrimary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btnSecondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-2, 0.5rem) var(--spacing-4, 1rem);
+  background: transparent;
+  color: var(--color-fg, #000);
+  border: 1px solid var(--color-border, #e5e5e5);
+  border-radius: var(--radius-sm, 4px);
+  font-size: var(--text-sm, 0.875rem);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.btnSecondary:hover {
+  background: var(--color-muted, #f5f5f5);
+}
+
+/* ── Webhook box ──────────────────────────────────────────────────────────── */
+
+.webhookBox {
+  margin-top: var(--spacing-5, 1.25rem);
+  padding: var(--spacing-4, 1rem);
+  background: var(--color-muted, #f5f5f5);
+  border-radius: var(--radius-sm, 4px);
+}
+
+.webhookLabel {
+  font-size: var(--text-sm, 0.875rem);
+  margin: 0 0 var(--spacing-2, 0.5rem);
+}
+
+.webhookRow {
+  display: flex;
+  gap: var(--spacing-2, 0.5rem);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.webhookUrl {
+  flex: 1;
+  font-size: var(--text-xs, 0.75rem);
+  font-family: monospace;
+  word-break: break-all;
+}
+
+.link {
+  color: var(--color-fg, #000);
+  text-underline-offset: 2px;
+}
+
+/* ── Checklist ────────────────────────────────────────────────────────────── */
+
+.checklist {
+  margin: 0;
+  padding-left: var(--spacing-5, 1.25rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2, 0.5rem);
+  font-size: var(--text-sm, 0.875rem);
+  color: var(--color-fg, #000);
+  line-height: 1.6;
+}
+
+/* ── Orders ───────────────────────────────────────────────────────────────── */
+
+.ordersHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-4, 1rem);
+  margin-bottom: var(--spacing-4, 1rem);
+}
+
+.ordersHeader .cardTitle {
+  margin: 0;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm, 0.875rem);
+}
+
+.table th,
+.table td {
+  text-align: left;
+  padding: var(--spacing-2, 0.5rem) var(--spacing-3, 0.75rem);
+  border-bottom: 1px solid var(--color-border, #e5e5e5);
+  color: var(--color-fg, #000);
+}
+
+.table th {
+  font-weight: 600;
+  font-size: var(--text-xs, 0.75rem);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-muted-fg, #666);
+}
+
+.clickableRow {
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.clickableRow:hover {
+  background: var(--color-muted, #f5f5f5);
+}
+
+.mono {
+  font-family: monospace;
+  font-size: var(--text-xs, 0.75rem);
+}
+
+.muted {
+  font-size: var(--text-sm, 0.875rem);
+  color: var(--color-muted-fg, #666);
+}
+
+/* ── Badges ───────────────────────────────────────────────────────────────── */
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border: 1px solid var(--color-border, #e5e5e5);
+  border-radius: 999px;
+  font-size: var(--text-xs, 0.75rem);
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: var(--text-xs, 0.75rem);
+  font-weight: 500;
+  text-transform: capitalize;
+  background: var(--color-muted, #f5f5f5);
+}
+
+.status_paid     { background: #d4edda; color: #155724; }
+.status_shipped  { background: #cce5ff; color: #004085; }
+.status_delivered{ background: #d4edda; color: #155724; }
+.status_failed   { background: #f8d7da; color: #721c24; }
+.status_cancelled{ background: #f8d7da; color: #721c24; }
+.status_pending  { background: #fff3cd; color: #856404; }
+.status_processing{ background: #e2d9f3; color: #4a0e82; }
+
+/* ── Row / helper layouts ────────────────────────────────────────────────── */
+
+.row {
+  display: flex;
+  gap: var(--spacing-2, 0.5rem);
+  align-items: center;
+}
+
+.shipmentForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3, 0.75rem);
+}
+
+/* ── Modal ────────────────────────────────────────────────────────────────── */
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: var(--spacing-4, 1rem);
+}
+
+.modal {
+  background: var(--color-bg, #fff);
+  border-radius: var(--radius-md, 6px);
+  padding: var(--spacing-6, 1.5rem);
+  max-width: 680px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.modalClose {
+  position: absolute;
+  top: var(--spacing-4, 1rem);
+  right: var(--spacing-4, 1rem);
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: var(--color-fg, #000);
+  line-height: 1;
+}
+
+.detailGrid {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--spacing-2, 0.5rem) var(--spacing-4, 1rem);
+  font-size: var(--text-sm, 0.875rem);
+  margin-bottom: var(--spacing-4, 1rem);
+}
+
+.detailKey {
+  font-weight: 600;
+  color: var(--color-muted-fg, #666);
+}

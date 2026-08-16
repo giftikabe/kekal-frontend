@@ -1,0 +1,67 @@
+.block {
+  background: var(--kk-white);
+  color: var(--kk-black);
+  padding: var(--kk-space-10) var(--kk-space-6);
+  box-sizing: border-box;
+}
+
+.inner {
+  max-width: 40rem;
+  margin: 0 auto;
+}
+
+.wide .inner {
+  max-width: 56rem;
+}
+
+.eyebrow {
+  display: block;
+  font-family: var(--kk-font-mono);
+  font-size: var(--kk-text-xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--kk-gray-500);
+  margin-bottom: var(--kk-space-3);
+}
+
+.heading {
+  font-family: var(--kk-font-display);
+  font-weight: 600;
+  font-size: var(--kk-text-2xl);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  margin: 0 0 var(--kk-space-5);
+}
+
+.prose {
+  font-family: var(--kk-font-body);
+  font-size: var(--kk-text-base);
+  line-height: 1.7;
+  color: var(--kk-gray-800);
+}
+
+.prose :global(p) {
+  margin: 0 0 var(--kk-space-4);
+}
+
+.prose :global(p:last-child) {
+  margin-bottom: 0;
+}
+
+.prose :global(a) {
+  color: var(--kk-black);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.prose :global(h3) {
+  font-family: var(--kk-font-display);
+  font-size: var(--kk-text-lg);
+  margin: var(--kk-space-6) 0 var(--kk-space-2);
+}
+
+.prose :global(ul),
+.prose :global(ol) {
+  padding-left: var(--kk-space-5);
+  margin: 0 0 var(--kk-space-4);
+}

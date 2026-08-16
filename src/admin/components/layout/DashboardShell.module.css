@@ -1,0 +1,45 @@
+.shell {
+  display: flex;
+  min-height: 100vh;
+  background: var(--color-gray50, #fafafa);
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.topbar {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  padding: 0 24px;
+  border-bottom: 1px solid var(--color-gray300, #c9c9c9);
+  background: var(--color-white, #fff);
+}
+
+.email {
+  font-size: 13px;
+  color: var(--color-gray700, #333);
+}
+
+.logoutButton {
+  font-size: 13px;
+  background: none;
+  border: 1px solid var(--color-gray300, #c9c9c9);
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.logoutButton:hover {
+  border-color: var(--color-black, #000);
+}
+
+.content {
+  flex: 1;
+  padding: 32px;
+}

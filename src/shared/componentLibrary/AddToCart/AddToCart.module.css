@@ -1,0 +1,75 @@
+/* src/shared/componentLibrary/AddToCart/AddToCart.module.css */
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3, 0.75rem);
+}
+
+.description {
+  font-size: var(--text-sm, 0.875rem);
+  color: var(--color-muted-fg, #555);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.priceRow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-2, 0.5rem);
+}
+
+.priceEtb {
+  font-size: var(--text-xl, 1.25rem);
+  font-weight: 700;
+  color: var(--color-fg, #000);
+  letter-spacing: -0.01em;
+}
+
+.priceSep {
+  color: var(--color-muted-fg, #aaa);
+}
+
+.priceUsd {
+  font-size: var(--text-base, 1rem);
+  color: var(--color-muted-fg, #555);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-3, 0.75rem) var(--spacing-6, 1.5rem);
+  background: var(--color-fg, #000);
+  color: var(--color-bg, #fff);
+  border: 2px solid var(--color-fg, #000);
+  border-radius: var(--radius-sm, 4px);
+  font-size: var(--text-sm, 0.875rem);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  align-self: flex-start;
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--color-bg, #fff);
+  color: var(--color-fg, #000);
+}
+
+.btn:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+.btnInCart {
+  background: var(--color-bg, #fff);
+  color: var(--color-fg, #000);
+  border-color: var(--color-border, #e5e5e5);
+}
+
+.btnInCart:hover:not(:disabled) {
+  background: var(--color-fg, #000);
+  color: var(--color-bg, #fff);
+  border-color: var(--color-fg, #000);
+}
