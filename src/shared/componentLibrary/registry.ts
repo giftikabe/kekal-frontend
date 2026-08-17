@@ -65,7 +65,11 @@ export const componentRegistry: Record<string, RegistryEntry<unknown>> = {
     } satisfies FormData,
   },
 
-  add_to_cart: {
+  // FIXED: was "add_to_cart" (snake_case) — inconsistent with every other key
+  // here, and would fail publish/router.ts's componentKey validation regex
+  // (^[A-Za-z][A-Za-z0-9]*$, no underscores allowed) if ever republished
+  // through the AI Section Flow.
+  addToCart: {
     component: AddToCart as RegistryEntry<unknown>['component'],
     label: 'Add to Cart',
     previewProps: {

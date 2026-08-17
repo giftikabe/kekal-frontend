@@ -1,5 +1,6 @@
 import  { useEffect, useRef, useState } from "react";
 import { compileSandbox, buildIframeDoc } from "../PreviewFrame/SandboxCompiler";
+import { apiClient } from "../../../shared/api/client";
 import styles from "./AiSectionFlow.module.css";
 
 interface SandboxPreviewProps {
@@ -10,6 +11,16 @@ interface SandboxPreviewProps {
   category: string;
   onBack: () => void;
   onPublished: (commitUrl: string) => void;
+}
+
+// FIXED: matches the backend's actual response shape
+// ({ componentKey, isNew, commitShas, commitUrls }) — was reading a
+// nonexistent `commitUrl` singular field.
+interface PublishComponentResponse {
+  componentKey: string;
+  isNew: boolean;
+  commitShas: string[];
+  commitUrls: string[];
 }
 
 export function SandboxPreview({
@@ -28,7 +39,6 @@ export function SandboxPreview({
   const [publishing, setPublishing] = useState(false);
   const [publishError, setPublishError] = useState<string | null>(null);
 
-  // Re-compile whenever source changes
   useEffect(() => {
     setCompileError(null);
 
@@ -39,14 +49,12 @@ export function SandboxPreview({
       return;
     }
 
-    // Revoke previous blob URL
     if (blobRef.current) URL.revokeObjectURL(blobRef.current);
 
     const blob = new Blob([result.js], { type: "text/javascript" });
     const jsBlobUrl = URL.createObjectURL(blob);
     blobRef.current = jsBlobUrl;
 
-    // Minimal placeholder data matching the component's documented shape
     const previewProps = {
       data: {},
       styleOverrides: {},
@@ -68,32 +76,19 @@ export function SandboxPreview({
     setPublishing(true);
     setPublishError(null);
     try {
-      const res = await fetch("/api/publish/component", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${getAccessToken()}`,
-        },
-        body: JSON.stringify({
-          componentKey,
-          label,
-          category,
-          tsxCode,
-          cssCode,
-          isNew: true,
-        }),
-      });
-
-      const json = await res.json();
-
-      if (!res.ok) {
-        setPublishError(json?.error?.message ?? "Publish failed.");
-        return;
-      }
-
-      onPublished(json.data?.commitUrl ?? "");
+      // FIXED: was fetch("/api/publish/component", ...) — a RELATIVE url,
+      // which hits the frontend's own origin (Cloudflare Pages) instead of
+      // the backend Worker. Was also reading the token from the wrong
+      // localStorage key ("kekal_access_token" vs the real "kk_access_token"),
+      // so Authorization was always missing → 401. apiClient fixes both:
+      // correct base URL (VITE_API_URL) and correct token key.
+      const result = await apiClient.post<PublishComponentResponse>(
+        "/api/publish/component",
+        { componentKey, label, category, tsxCode, cssCode, isNew: true },
+      );
+      onPublished(result.commitUrls?.[0] ?? "");
     } catch (err: unknown) {
-      setPublishError(String((err as Error).message ?? err));
+      setPublishError(err instanceof Error ? err.message : "Publish failed.");
     } finally {
       setPublishing(false);
     }
@@ -158,17 +153,4 @@ export function SandboxPreview({
       </div>
     </div>
   );
-}
-
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
-function getAccessToken(): string {
-  // Access token is stored in localStorage by the AuthContext (F2)
-  try {
-    return localStorage.getItem("kekal_access_token") ?? "";
-  } catch {
-    return "";
-  }
 }

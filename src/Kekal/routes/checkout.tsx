@@ -7,17 +7,31 @@ import styles from "./checkout.module.css";
 type CustomerType = "local" | "international";
 type Currency = "etb" | "usd";
 
+// FIXED: matches src/modules/commerce/types.ts's checkoutSchema exactly —
+// previous version sent custom_row_id/customer_type/contact_name/etc, which
+// the backend's Zod schema rejected outright (422 on every checkout).
 interface CheckoutBody {
-  items: { custom_row_id: string; quantity: number }[];
-  customer_type: CustomerType;
+  items: { customRowId: string; quantity: number }[];
+  customerType: CustomerType;
   currency: Currency;
-  contact_name: string;
-  contact_phone?: string;
-  shipping_address?: { address_line_1: string; city: string; country: string; postal_code?: string };
+  contactName: string;
+  contactEmail?: string;
+  contactPhone?: string;
+  shippingAddress?: {
+    line1: string;
+    line2?: string;
+    city: string;
+    country: string;
+    postalCode?: string;
+  };
 }
 
+// FIXED: backend returns { orderId, orderNumber, checkoutUrl } (camelCase),
+// not { checkout_url }.
 interface CheckoutResponse {
-  checkout_url: string;
+  orderId: string;
+  orderNumber: string;
+  checkoutUrl: string;
 }
 
 export default function CheckoutPage() {
@@ -50,21 +64,26 @@ export default function CheckoutPage() {
     setError(null);
 
     const body: CheckoutBody = {
-      items: items.map((i) => ({ custom_row_id: i.custom_row_id, quantity: i.quantity })),
-      customer_type: customerType,
+      items: items.map((i) => ({ customRowId: i.custom_row_id, quantity: i.quantity })),
+      customerType,
       currency,
-      contact_name: contactName,
+      contactName,
     };
 
     if (customerType === "local") {
-      body.contact_phone = contactPhone;
+      body.contactPhone = contactPhone;
     } else {
-      body.shipping_address = { address_line_1: addressLine1, city, country, postal_code: postalCode || undefined };
+      body.shippingAddress = {
+        line1: addressLine1,
+        city,
+        country,
+        postalCode: postalCode || undefined,
+      };
     }
 
     try {
       const res = await apiClient.post<CheckoutResponse>("/api/commerce/checkout", body);
-      window.location.href = res.checkout_url;
+      window.location.href = res.checkoutUrl;
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Checkout failed. Please try again.");
       setSubmitting(false);

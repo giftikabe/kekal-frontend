@@ -14,12 +14,10 @@ export const tokenStorage = {
   },
 }
 
-/** Convenience wrapper used by AuthContext to check for an existing session. */
 export function getAccessToken(): string | null {
   return tokenStorage.getAccess()
 }
 
-/** Store or clear both tokens in one call. Pass null/null to log out. */
 export function setTokens(accessToken: string | null, refreshToken: string | null): void {
   if (accessToken && refreshToken) {
     tokenStorage.setAccess(accessToken)
@@ -41,12 +39,29 @@ function getBaseUrl(): string {
 
 interface RequestOptions extends Omit<RequestInit, 'body'> {
   body?: unknown
-  /** Omit the Authorization header entirely (e.g. /api/auth/login, which has no session yet). */
   skipAuth?: boolean
-  /** Still attach the Authorization header if present, but never attempt a refresh-and-retry on 401 (e.g. /api/auth/logout). */
   skipAuthRetry?: boolean
-  /** Internal flag — set to true on the retry to prevent infinite loops */
   _isRetry?: boolean
+}
+
+/**
+ * FIXED: the backend's ok()/fail() helpers (src/lib/response.ts) wrap every
+ * success response as { data: <payload> } — except the auth router, which
+ * returns bare JSON. Every non-auth caller in this app was receiving the
+ * wrapper object instead of the payload. This unwraps `data` when present,
+ * and falls through to the raw JSON otherwise (keeps auth working).
+ */
+function unwrapEnvelope<T>(json: unknown): T {
+  if (
+    json !== null &&
+    typeof json === 'object' &&
+    !Array.isArray(json) &&
+    Object.prototype.hasOwnProperty.call(json, 'data') &&
+    Object.keys(json as Record<string, unknown>).length === 1
+  ) {
+    return (json as { data: T }).data
+  }
+  return json as T
 }
 
 async function request<T>(path: string, options: RequestOptions = {}): Promise<T> {
@@ -79,8 +94,6 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
         })
 
         if (refreshRes.ok) {
-          // NOTE: assumes this endpoint returns the token bare, matching every
-          // other endpoint in this app — flagged for confirmation, see chat.
           const refreshData = await refreshRes.json() as { accessToken: string }
           tokenStorage.setAccess(refreshData.accessToken)
           return request<T>(path, { ...options, _isRetry: true })
@@ -106,7 +119,7 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
     throw new ApiError(message, code, response.status)
   }
 
-  return json as T
+  return unwrapEnvelope<T>(json)
 }
 
 export function get<T>(path: string, options?: Omit<RequestOptions, 'body' | 'method'>): Promise<T> {
