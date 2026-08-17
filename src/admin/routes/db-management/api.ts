@@ -45,12 +45,18 @@ export function getRow(tableId: string, rowId: string) {
   return apiClient.get<CustomRow>(`/api/tables/${tableId}/rows/${rowId}`);
 }
 
+// IMPORTANT: the backend (src/modules/tables/router.ts + service.ts) expects
+// the row's field values as the request body directly — NOT wrapped in
+// `{ data: ... }`. It does its own wrapping internally when it writes to the
+// `custom_rows.data` jsonb column. Sending `{ data }` here meant every field
+// key showed up as "missing" to validateRowData and every create/update
+// failed with a 422.
 export function createRow(tableId: string, data: Record<string, unknown>) {
-  return apiClient.post<CustomRow>(`/api/tables/${tableId}/rows`, { data });
+  return apiClient.post<CustomRow>(`/api/tables/${tableId}/rows`, data);
 }
 
 export function updateRow(tableId: string, rowId: string, data: Record<string, unknown>) {
-  return apiClient.patch<CustomRow>(`/api/tables/${tableId}/rows/${rowId}`, { data });
+  return apiClient.patch<CustomRow>(`/api/tables/${tableId}/rows/${rowId}`, data);
 }
 
 export function deleteRow(tableId: string, rowId: string) {

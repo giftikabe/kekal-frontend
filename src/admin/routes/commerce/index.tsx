@@ -1,38 +1,37 @@
 import { useState, useEffect, useCallback } from "react";
 import { apiClient } from "../../../shared/api/client";
-import { DashboardShell } from "../../components/layout/DashboardShell";
 import { ProtectedRoute } from "../../auth/ProtectedRoute";
 import styles from "./commerce.module.css";
 
 interface CommerceSettings {
-  is_active: boolean;
-  chapa_public_key: string;
-  chapa_secret_key: string;
-  webhook_url: string;
+  isActive: boolean;
+  chapaPublicKey: string;
+  chapaSecretKey: string;
+  webhookUrl: string;
 }
 
 interface OrderItem {
   id: string;
-  custom_row_id: string;
+  customRowId: string;
   quantity: number;
-  unit_price: number;
+  unitPrice: number;
   currency: "etb" | "usd";
 }
 
 interface Order {
   id: string;
-  order_number: string;
-  customer_type: "local" | "international";
-  contact_name: string;
-  contact_phone?: string;
-  shipping_address?: Record<string, string>;
+  orderNumber: string;
+  customerType: "local" | "international";
+  contactName: string;
+  contactPhone?: string;
+  shippingAddress?: Record<string, string>;
   currency: "etb" | "usd";
-  total_amount: number;
+  totalAmount: number;
   status: "pending" | "paid" | "processing" | "shipped" | "delivered" | "failed" | "cancelled";
-  created_at: string;
+  createdAt: string;
   items?: OrderItem[];
-  payment?: { chapa_tx_ref: string; status: string };
-  shipment?: { status: string; tracking_note: string };
+  payment?: { chapaTxRef: string; status: string };
+  shipment?: { status: string; trackingNote: string };
 }
 
 const ORDER_STATUSES = [
@@ -40,8 +39,8 @@ const ORDER_STATUSES = [
 ] as const;
 
 function ChapaSetupForm({ settings, onSaved }: { settings: CommerceSettings | null; onSaved: (s: CommerceSettings) => void }) {
-  const [publicKey, setPublicKey] = useState(settings?.chapa_public_key ?? "");
-  const [secretKey, setSecretKey] = useState(settings?.chapa_secret_key ?? "");
+  const [publicKey, setPublicKey] = useState(settings?.chapaPublicKey ?? "");
+  const [secretKey, setSecretKey] = useState(settings?.chapaSecretKey ?? "");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
@@ -51,9 +50,10 @@ function ChapaSetupForm({ settings, onSaved }: { settings: CommerceSettings | nu
     setSaving(true);
     setError(null);
     try {
+      // Backend's saveSettingsSchema (Zod) expects camelCase keys.
       const res = await apiClient.post<CommerceSettings>("/api/commerce/settings", {
-        chapa_public_key: publicKey,
-        chapa_secret_key: secretKey,
+        chapaPublicKey: publicKey,
+        chapaSecretKey: secretKey,
       });
       onSaved(res);
     } catch (err: unknown) {
@@ -64,8 +64,8 @@ function ChapaSetupForm({ settings, onSaved }: { settings: CommerceSettings | nu
   };
 
   const copyWebhook = () => {
-    if (settings?.webhook_url) {
-      navigator.clipboard.writeText(settings.webhook_url);
+    if (settings?.webhookUrl) {
+      navigator.clipboard.writeText(settings.webhookUrl);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
@@ -88,14 +88,14 @@ function ChapaSetupForm({ settings, onSaved }: { settings: CommerceSettings | nu
           {saving ? "Saving…" : "Save & Activate"}
         </button>
       </form>
-      {settings?.is_active && settings.webhook_url && (
+      {settings?.isActive && settings.webhookUrl && (
         <div className={styles.webhookBox}>
           <p className={styles.webhookLabel}>
             ✅ Chapa is active. Paste this webhook URL into your{" "}
             <a href="https://dashboard.chapa.co" target="_blank" rel="noreferrer" className={styles.link}>Chapa dashboard</a>:
           </p>
           <div className={styles.webhookRow}>
-            <code className={styles.webhookUrl}>{settings.webhook_url}</code>
+            <code className={styles.webhookUrl}>{settings.webhookUrl}</code>
             <button type="button" className={styles.btnSecondary} onClick={copyWebhook}>
               {copied ? "Copied!" : "Copy"}
             </button>
@@ -123,7 +123,7 @@ function SetupChecklist() {
 function OrderDetailModal({ order, onClose, onUpdated }: { order: Order; onClose: () => void; onUpdated: (o: Order) => void }) {
   const [orderStatus, setOrderStatus] = useState(order.status);
   const [shipStatus, setShipStatus] = useState(order.shipment?.status ?? "");
-  const [trackingNote, setTrackingNote] = useState(order.shipment?.tracking_note ?? "");
+  const [trackingNote, setTrackingNote] = useState(order.shipment?.trackingNote ?? "");
   const [saving, setSaving] = useState(false);
 
   const saveOrderStatus = async () => {
@@ -137,8 +137,9 @@ function OrderDetailModal({ order, onClose, onUpdated }: { order: Order; onClose
   const saveShipment = async () => {
     setSaving(true);
     try {
+      // Backend's shipmentSchema expects { status, trackingNote } (camelCase).
       const updated = await apiClient.patch<Order>(`/api/commerce/orders/${order.id}/shipment`, {
-        status: shipStatus, tracking_note: trackingNote,
+        status: shipStatus, trackingNote,
       });
       onUpdated(updated);
     } finally { setSaving(false); }
@@ -148,20 +149,20 @@ function OrderDetailModal({ order, onClose, onUpdated }: { order: Order; onClose
     <div className={styles.modalBackdrop} onClick={onClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
         <button type="button" className={styles.modalClose} onClick={onClose} aria-label="Close">✕</button>
-        <h2 className={styles.cardTitle}>Order {order.order_number}</h2>
+        <h2 className={styles.cardTitle}>Order {order.orderNumber}</h2>
         <div className={styles.detailGrid}>
-          <span className={styles.detailKey}>Customer</span><span>{order.contact_name}</span>
-          <span className={styles.detailKey}>Type</span><span className={styles.badge}>{order.customer_type}</span>
-          {order.contact_phone && (<><span className={styles.detailKey}>Phone</span><span>{order.contact_phone}</span></>)}
-          {order.shipping_address && (
-            <><span className={styles.detailKey}>Ship To</span><span>{Object.values(order.shipping_address).filter(Boolean).join(", ")}</span></>
+          <span className={styles.detailKey}>Customer</span><span>{order.contactName}</span>
+          <span className={styles.detailKey}>Type</span><span className={styles.badge}>{order.customerType}</span>
+          {order.contactPhone && (<><span className={styles.detailKey}>Phone</span><span>{order.contactPhone}</span></>)}
+          {order.shippingAddress && (
+            <><span className={styles.detailKey}>Ship To</span><span>{Object.values(order.shippingAddress).filter(Boolean).join(", ")}</span></>
           )}
           <span className={styles.detailKey}>Total</span>
-          <span>{order.total_amount.toLocaleString()} {order.currency.toUpperCase()}</span>
+          <span>{Number(order.totalAmount).toLocaleString()} {order.currency.toUpperCase()}</span>
           <span className={styles.detailKey}>Payment</span>
-          <span>{order.payment?.chapa_tx_ref ?? "—"} ({order.payment?.status ?? "pending"})</span>
+          <span>{order.payment?.chapaTxRef ?? "—"} ({order.payment?.status ?? "pending"})</span>
           <span className={styles.detailKey}>Placed</span>
-          <span>{new Date(order.created_at).toLocaleString()}</span>
+          <span>{new Date(order.createdAt).toLocaleString()}</span>
         </div>
 
         {order.items && order.items.length > 0 && (
@@ -172,9 +173,9 @@ function OrderDetailModal({ order, onClose, onUpdated }: { order: Order; onClose
               <tbody>
                 {order.items.map((item) => (
                   <tr key={item.id}>
-                    <td className={styles.mono}>{item.custom_row_id}</td>
+                    <td className={styles.mono}>{item.customRowId}</td>
                     <td>{item.quantity}</td>
-                    <td>{item.unit_price.toLocaleString()}</td>
+                    <td>{Number(item.unitPrice).toLocaleString()}</td>
                     <td>{item.currency.toUpperCase()}</td>
                   </tr>
                 ))}
@@ -254,12 +255,12 @@ function OrdersTable() {
           <tbody>
             {orders.map((o) => (
               <tr key={o.id} className={styles.clickableRow} onClick={() => openOrder(o)} tabIndex={0} onKeyDown={(e) => e.key === "Enter" && openOrder(o)}>
-                <td className={styles.mono}>{o.order_number}</td>
-                <td>{o.contact_name}</td>
-                <td><span className={styles.badge}>{o.customer_type}</span></td>
-                <td>{o.total_amount.toLocaleString()} {o.currency.toUpperCase()}</td>
+                <td className={styles.mono}>{o.orderNumber}</td>
+                <td>{o.contactName}</td>
+                <td><span className={styles.badge}>{o.customerType}</span></td>
+                <td>{Number(o.totalAmount).toLocaleString()} {o.currency.toUpperCase()}</td>
                 <td><span className={`${styles.statusBadge} ${styles[`status_${o.status}` as keyof typeof styles]}`}>{o.status}</span></td>
-                <td>{new Date(o.created_at).toLocaleDateString()}</td>
+                <td>{new Date(o.createdAt).toLocaleDateString()}</td>
               </tr>
             ))}
           </tbody>
@@ -280,16 +281,20 @@ export default function CommercePage() {
     apiClient.get<CommerceSettings>("/api/commerce/settings").then(setSettings).catch(() => {});
   }, []);
 
+  // NOTE: no <DashboardShell> here — the admin router's layout route already
+  // wraps every /admin/* page in one DashboardShell (which renders <Sidebar/>).
+  // This page used to wrap itself in a second DashboardShell on top of that,
+  // which is what produced the two sidebars. ProtectedRoute is kept so the
+  // super_admin-only restriction still applies even if the layout route
+  // doesn't already enforce it — remove this too if it does.
   return (
     <ProtectedRoute allowedRoles={["super_admin"]}>
-      <DashboardShell>
-        <div className={styles.page}>
-          <h1 className={styles.pageTitle}>Commerce</h1>
-          <ChapaSetupForm settings={settings} onSaved={(s) => setSettings(s)} />
-          {settings?.is_active && <SetupChecklist />}
-          <OrdersTable />
-        </div>
-      </DashboardShell>
+      <div className={styles.page}>
+        <h1 className={styles.pageTitle}>Commerce</h1>
+        <ChapaSetupForm settings={settings} onSaved={(s) => setSettings(s)} />
+        {settings?.isActive && <SetupChecklist />}
+        <OrdersTable />
+      </div>
     </ProtectedRoute>
   );
 }

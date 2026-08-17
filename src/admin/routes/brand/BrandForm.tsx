@@ -8,11 +8,11 @@ const EMPTY_BRAND: BrandSettingsInput = {
   name: "",
   tagline: "",
   description: "",
-  logo_light_url: null,
-  logo_dark_url: null,
-  contact_email: "",
-  contact_phone: "",
-  contact_address: "",
+  logoLightUrl: null,
+  logoDarkUrl: null,
+  contactEmail: "",
+  contactPhone: "",
+  contactAddress: "",
 };
 
 export function BrandForm() {
@@ -85,7 +85,7 @@ export function BrandForm() {
           <span>Tagline</span>
           <input
             type="text"
-            value={brand.tagline}
+            value={brand.tagline ?? ""}
             onChange={(e) => update("tagline", e.target.value)}
           />
         </label>
@@ -94,7 +94,7 @@ export function BrandForm() {
           <span>Description</span>
           <textarea
             rows={4}
-            value={brand.description}
+            value={brand.description ?? ""}
             onChange={(e) => update("description", e.target.value)}
           />
         </label>
@@ -105,15 +105,15 @@ export function BrandForm() {
         <div className={styles.uploadRow}>
           <ImageUploadSlot
             label="Light background (black logo)"
-            currentUrl={brand.logo_light_url}
+            currentUrl={brand.logoLightUrl}
             previewBackground="light"
-            onUploaded={(url) => update("logo_light_url", url)}
+            onUploaded={(url) => update("logoLightUrl", url)}
           />
           <ImageUploadSlot
             label="Dark background (white logo)"
-            currentUrl={brand.logo_dark_url}
+            currentUrl={brand.logoDarkUrl}
             previewBackground="dark"
-            onUploaded={(url) => update("logo_dark_url", url)}
+            onUploaded={(url) => update("logoDarkUrl", url)}
           />
         </div>
       </section>
@@ -125,8 +125,8 @@ export function BrandForm() {
           <span>Email</span>
           <input
             type="email"
-            value={brand.contact_email}
-            onChange={(e) => update("contact_email", e.target.value)}
+            value={brand.contactEmail ?? ""}
+            onChange={(e) => update("contactEmail", e.target.value)}
           />
         </label>
 
@@ -134,8 +134,8 @@ export function BrandForm() {
           <span>Phone</span>
           <input
             type="tel"
-            value={brand.contact_phone}
-            onChange={(e) => update("contact_phone", e.target.value)}
+            value={brand.contactPhone ?? ""}
+            onChange={(e) => update("contactPhone", e.target.value)}
           />
         </label>
 
@@ -143,8 +143,8 @@ export function BrandForm() {
           <span>Address</span>
           <textarea
             rows={2}
-            value={brand.contact_address}
-            onChange={(e) => update("contact_address", e.target.value)}
+            value={brand.contactAddress ?? ""}
+            onChange={(e) => update("contactAddress", e.target.value)}
           />
         </label>
       </section>

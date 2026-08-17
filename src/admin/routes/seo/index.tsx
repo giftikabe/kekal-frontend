@@ -52,20 +52,20 @@ export default function SeoSettingsPage() {
                 onClick={() => setActiveId(record.id)}
               >
                 <td>
-                  <div className={styles.pageLabel}>{record.page_label}</div>
-                  <div className={styles.pageSlug}>/{record.page_slug}</div>
+                  <div className={styles.pageLabel}>{record.pageLabel}</div>
+                  <div className={styles.pageSlug}>/{record.pageSlug}</div>
                 </td>
                 <td className={styles.titleCell}>{record.title || "—"}</td>
                 <td>
                   <span
                     className={styles.badge}
-                    data-variant={record.is_manual_override ? "manual" : "auto"}
+                    data-variant={record.isManualOverride ? "manual" : "auto"}
                   >
-                    {record.is_manual_override ? "Manual" : "Auto-generated"}
+                    {record.isManualOverride ? "Manual" : "Auto-generated"}
                   </span>
                 </td>
                 <td className={styles.updatedCell}>
-                  {new Date(record.updated_at).toLocaleDateString()}
+                  {new Date(record.updatedAt).toLocaleDateString()}
                 </td>
               </tr>
             ))}

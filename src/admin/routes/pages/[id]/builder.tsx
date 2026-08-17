@@ -89,7 +89,7 @@ export default function PageBuilderRoute() {
     if (!pageId) return;
     if (selectedSectionId === sectionId) setSelectedSectionId(null);
     try {
-      await deleteSection(sectionId);
+      await deleteSection(pageId, sectionId);
       setPageDetail(await fetchPageById(pageId));
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Could not remove that section.');

@@ -44,9 +44,10 @@ export function NavReorder() {
 
   async function handleDragEnd() {
     dragIndex.current = null;
-    const orderedIds = items.map((item) => item.id);
+    const orderedNavIds = items.map((item) => item.id);
     try {
-      await apiClient.patch("/api/nav/reorder", { order: orderedIds });
+      // Backend's reorderNavSchema expects { orderedNavIds }, not { order }.
+      await apiClient.patch("/api/nav/reorder", { orderedNavIds });
     } catch {
       // Reordering failed silently — refetch to fall back to the server's truth.
       const fresh = await apiClient.get<NavItem[]>("/api/nav");
@@ -97,7 +98,7 @@ export function NavReorder() {
             onChange={(e) => handleLabelChange(item.id, e.target.value)}
             onBlur={() => handleLabelBlur(item)}
           />
-          <span className={styles.navSlug}>/{item.page_slug}</span>
+          <span className={styles.navSlug}>/{item.page.slug}</span>
           {savingId === item.id && (
             <span className={styles.savingHint}>Saving…</span>
           )}

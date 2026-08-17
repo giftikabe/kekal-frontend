@@ -41,13 +41,13 @@ export function ImageUploadSlot({
 
       const form = new FormData();
       form.append("file", file);
-      form.append("api_key", signature.api_key);
+      form.append("api_key", signature.apiKey);
       form.append("timestamp", String(signature.timestamp));
       form.append("signature", signature.signature);
       if (signature.folder) form.append("folder", signature.folder);
 
       const uploadRes = await fetch(
-        `https://api.cloudinary.com/v1_1/${signature.cloud_name}/image/upload`,
+        `https://api.cloudinary.com/v1_1/${signature.cloudName}/image/upload`,
         { method: "POST", body: form }
       );
 

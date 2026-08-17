@@ -1,83 +1,106 @@
-/**
- * Kekal Living Admin — Login Route Placeholder
- *
- * F2 (Admin Shell & Auth) replaces this with the real login form wired to
- * AuthContext and the /api/auth/login endpoint.
- */
+import { useState, type FormEvent } from "react";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "@/admin/auth/AuthContext";
+import { ApiError } from "@/shared/api/client";
+import { Logomark } from "@/shared/theme/Logomark";
 
-import { useNavigate } from 'react-router-dom'
+export function LoginRoute() {
+  const { login, isAuthenticated, isLoading } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-export default function AdminLogin() {
-  const navigate = useNavigate()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  if (!isLoading && isAuthenticated) {
+    const from = (location.state as { from?: Location })?.from?.pathname ?? "/admin/dashboard";
+    return <Navigate to={from} replace />;
+  }
+
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    setError(null);
+    setIsSubmitting(true);
+    try {
+      await login(email, password);
+      navigate("/admin/dashboard", { replace: true });
+    } catch (err) {
+      if (err instanceof ApiError && err.status === 401) {
+        setError("That email and password don't match.");
+      } else {
+        setError("Couldn't sign in. Check your connection and try again.");
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
 
   return (
-    <div style={styles.page}>
-      <div style={styles.card}>
-        <img
-          src="/logo/KEKAL_logomark_black_on_white.jpg"
-          alt="Kekal Living"
-          style={styles.logo}
-        />
-        <h1 style={styles.title}>Admin Access</h1>
-        <p style={styles.subtitle}>
-          Authentication is wired in F2. This is the routing placeholder.
-        </p>
-        <button style={styles.btn} onClick={() => navigate('/admin/dashboard')}>
-          Continue to Dashboard →
-        </button>
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-paper px-6">
+      {/* Oversized watermark monogram — the one bold gesture on an otherwise quiet screen. */}
+      <div className="pointer-events-none absolute -right-24 -top-24 opacity-[0.04]" aria-hidden="true">
+        <Logomark size={480} />
+      </div>
+
+      <div className="relative w-full max-w-sm">
+        <div className="mb-10 flex flex-col items-center gap-4">
+          <Logomark size={40} animated />
+          <div className="text-center">
+            <h1 className="font-display text-xl font-semibold tracking-tight text-ink">Kekal Living</h1>
+            <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">Admin</p>
+          </div>
+        </div>
+
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5" noValidate>
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="email" className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
+              Email
+            </label>
+            <input
+              id="email"
+              type="email"
+              autoComplete="username"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="border border-line bg-paper px-3 py-2.5 font-body text-sm text-ink outline-none transition-colors focus:border-ink"
+              placeholder="you@kekalliving.com"
+            />
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="password" className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
+              Password
+            </label>
+            <input
+              id="password"
+              type="password"
+              autoComplete="current-password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="border border-line bg-paper px-3 py-2.5 font-body text-sm text-ink outline-none transition-colors focus:border-ink"
+              placeholder="••••••••"
+            />
+          </div>
+
+          {error && (
+            <p role="alert" className="border border-ink bg-ink px-3 py-2 font-mono text-xs text-paper">
+              {error}
+            </p>
+          )}
+
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="mt-2 bg-ink px-4 py-2.5 font-body text-sm font-medium text-paper transition-opacity hover:opacity-90 disabled:opacity-50"
+          >
+            {isSubmitting ? "Signing in…" : "Sign in"}
+          </button>
+        </form>
       </div>
     </div>
-  )
-}
-
-const styles: Record<string, React.CSSProperties> = {
-  page: {
-    minHeight: '100vh',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    background: 'var(--kk-gray-50)',
-    fontFamily: 'var(--kk-font-sans)',
-  },
-  card: {
-    background: 'var(--kk-white)',
-    border: '1px solid var(--kk-gray-200)',
-    borderRadius: '4px',
-    padding: '3rem',
-    maxWidth: '24rem',
-    width: '100%',
-    textAlign: 'center',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: '1rem',
-  },
-  logo: { height: '3rem', width: 'auto', marginBottom: '0.5rem' },
-  title: {
-    fontFamily: 'var(--kk-font-display)',
-    fontSize: '1.5rem',
-    fontWeight: 700,
-    color: 'var(--kk-black)',
-    margin: 0,
-  },
-  subtitle: {
-    fontSize: '0.875rem',
-    color: 'var(--kk-gray-500)',
-    lineHeight: 1.6,
-    margin: 0,
-  },
-  btn: {
-    marginTop: '0.5rem',
-    padding: '0.75rem 1.5rem',
-    background: 'var(--kk-black)',
-    color: 'var(--kk-white)',
-    border: 'none',
-    borderRadius: '2px',
-    fontFamily: 'var(--kk-font-sans)',
-    fontSize: '0.875rem',
-    fontWeight: 600,
-    letterSpacing: '0.05em',
-    cursor: 'pointer',
-    width: '100%',
-  },
+  );
 }

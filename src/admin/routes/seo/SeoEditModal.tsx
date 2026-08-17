@@ -9,6 +9,13 @@ interface SeoEditModalProps {
   onSaved: (updated: SeoRecord) => void;
 }
 
+// The backend's PATCH /api/seo/:id and POST /api/seo/:id/regenerate only
+// return the seo_settings row itself (id, pageId, title, description,
+// keywords, structuredData, isManualOverride, updatedAt) — it doesn't
+// re-join the page's title/slug. Merge those back in from the record we
+// already have so the list row doesn't lose its label after a save.
+type SeoSettingsPatchResult = Omit<SeoRecord, "pageLabel" | "pageSlug">;
+
 export function SeoEditModal({ record, onClose, onSaved }: SeoEditModalProps) {
   const [title, setTitle] = useState(record.title);
   const [description, setDescription] = useState(record.description);
@@ -28,13 +35,12 @@ export function SeoEditModal({ record, onClose, onSaved }: SeoEditModalProps) {
     setIsSaving(true);
     setError(null);
     try {
-      const updated = await apiClient.patch<SeoRecord>(`/api/seo/${record.id}`, {
+      const updated = await apiClient.patch<SeoSettingsPatchResult>(`/api/seo/${record.id}`, {
         title,
         description,
         keywords: parseKeywords(),
-        is_manual_override: true,
       });
-      onSaved(updated);
+      onSaved({ ...record, ...updated });
       onClose();
     } catch {
       setError("Couldn't save. Try again.");
@@ -47,14 +53,14 @@ export function SeoEditModal({ record, onClose, onSaved }: SeoEditModalProps) {
     setIsRegenerating(true);
     setError(null);
     try {
-      const updated = await apiClient.post<SeoRecord>(
+      const updated = await apiClient.post<SeoSettingsPatchResult>(
         `/api/seo/${record.id}/regenerate`,
         {}
       );
       setTitle(updated.title);
       setDescription(updated.description);
       setKeywordsText(updated.keywords.join(", "));
-      onSaved(updated);
+      onSaved({ ...record, ...updated });
     } catch {
       setError("Couldn't regenerate. Try again.");
     } finally {
@@ -72,8 +78,8 @@ export function SeoEditModal({ record, onClose, onSaved }: SeoEditModalProps) {
       >
         <header className={styles.modalHeader}>
           <div>
-            <h2>{record.page_label}</h2>
-            <p className={styles.pageSlug}>/{record.page_slug}</p>
+            <h2>{record.pageLabel}</h2>
+            <p className={styles.pageSlug}>/{record.pageSlug}</p>
           </div>
           <button
             type="button"
@@ -116,7 +122,7 @@ export function SeoEditModal({ record, onClose, onSaved }: SeoEditModalProps) {
           <div className={styles.field}>
             <span>Structured data (read-only)</span>
             <pre className={styles.structuredData}>
-              {JSON.stringify(record.structured_data, null, 2)}
+              {JSON.stringify(record.structuredData, null, 2)}
             </pre>
           </div>
 
