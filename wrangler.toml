@@ -5,15 +5,13 @@ compatibility_date = "2024-09-23"
 pages_build_output_dir = "./dist"
 
 [vars]
-# URL of the Kekal backend API (Cloudflare Worker)
-VITE_API_URL="https://kekal-backend-production.kekal.workers.dev"
+VITE_API_URL = "https://kekal-backend-production.kekal.workers.dev"
+VITE_CLOUDINARY_CLOUD_NAME = "ytqenkxa"
 
-# Cloudinary cloud name for media uploads
-VITE_CLOUDINARY_CLOUD_NAME="ytqenkxa"
+[env.production.vars]
+VITE_API_URL = "https://kekal-backend-production.kekal.workers.dev"
+VITE_CLOUDINARY_CLOUD_NAME = "ytqenkxa"
 
-
-[env.production]
-# Production environment variables are set in the Cloudflare Pages dashboard
-
-[env.preview]
-# Preview environment variables are set in the Cloudflare Pages dashboard
+[env.preview.vars]
+VITE_API_URL = "https://kekal-backend-production.kekal.workers.dev"
+VITE_CLOUDINARY_CLOUD_NAME = "ytqenkxa"
