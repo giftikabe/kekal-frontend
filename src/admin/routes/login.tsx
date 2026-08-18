@@ -39,7 +39,7 @@ export function LoginRoute() {
 
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-paper px-6">
-      {/* Oversized watermark monogram — the one bold gesture on an otherwise quiet screen. */}
+      {/* Oversized watermark monogram — the one bold gestur screen. */}
       <div className="pointer-events-none absolute -right-24 -top-24 opacity-[0.04]" aria-hidden="true">
         <Logomark size={480} />
       </div>
@@ -56,7 +56,7 @@ export function LoginRoute() {
         <form onSubmit={handleSubmit} className="flex flex-col gap-5" noValidate>
           <div className="flex flex-col gap-1.5">
             <label htmlFor="email" className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
-              Email
+              Your Email
             </label>
             <input
               id="email"
