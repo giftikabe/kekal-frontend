@@ -56,7 +56,7 @@ export function LoginRoute() {
         <form onSubmit={handleSubmit} className="flex flex-col gap-5" noValidate>
           <div className="flex flex-col gap-1.5">
             <label htmlFor="email" className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
-              Email
+              Your Email
             </label>
             <input
               id="email"
@@ -72,7 +72,7 @@ export function LoginRoute() {
 
           <div className="flex flex-col gap-1.5">
             <label htmlFor="password" className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
-              Password
+              Your Password
             </label>
             <input
               id="password"
